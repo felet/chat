@@ -1,4 +1,9 @@
+# User specific files
 chat.pro.user
+Makefile
+
+# moc files
+moc_*
 
 # Compiled Object files
 *.slo
@@ -18,6 +23,7 @@ chat.pro.user
 *.lib
 
 # Executables
+chat
 *.exe
 *.out
 *.app
