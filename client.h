@@ -7,6 +7,7 @@
 class Client : public QObject
 {
     Q_OBJECT
+
 private:
     QTcpSocket* m_tcpSocket;
 
@@ -17,6 +18,7 @@ public:
 
 signals:
     void disconnected(Client*);
+    void forwardMessage(const QByteArray*);
 
 public slots:
     void socketDisconnected();

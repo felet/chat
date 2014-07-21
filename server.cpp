@@ -6,6 +6,7 @@ Server::Server(QObject *parent)
     m_tcpServer = new QTcpServer();
     QObject::connect(m_tcpServer, SIGNAL(newConnection()),
                      this, SLOT(newConnection()));
+
     if (m_tcpServer->listen(QHostAddress::Any, m_port))
     {
         qDebug() << "Server assigned to port: " << m_port;
@@ -35,6 +36,8 @@ void Server::newConnection()
     m_clients.push_back(client);
     QObject::connect(client, SIGNAL(disconnected(Client*)),
                      this, SLOT(clientDisconnected(Client*)));
+    QObject::connect(client, SIGNAL(forwardMessage(const QByteArray*)),
+                     this, SLOT(forwardMessage(const QByteArray*)));
 
     client->write("Welcome!\n");
 }
@@ -44,4 +47,14 @@ void Server::clientDisconnected(Client* client)
     m_clients.removeOne(client);
     delete client;
     qDebug() << "Client disconnected!";
+}
+
+void Server::forwardMessage(const QByteArray* command_ptr)
+{
+    for (QList<Client*>::iterator itr = m_clients.begin(); itr != m_clients.constEnd(); ++itr)
+    {
+        Client *client = *itr;
+        client->write(*command_ptr);
+    }
+    delete command_ptr;
 }

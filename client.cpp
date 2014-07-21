@@ -23,8 +23,20 @@ Client::~Client()
 
 void Client::read()
 {
-    QByteArray line = m_tcpSocket->readLine(100);
-    qDebug() << line;
+    const QByteArray *command_ptr = new QByteArray(m_tcpSocket->readLine(100));
+    qDebug() << "Read from client: " << *command_ptr;
+
+    if (command_ptr->startsWith("MESSAGE "))
+    {
+        emit forwardMessage(command_ptr);
+    }
+    else
+    {
+        delete command_ptr;
+        const QByteArray note("Unknown command!\n");
+        qDebug() << note;
+        write(note);
+    }
 }
 
 void Client::write(const QByteArray& data)
