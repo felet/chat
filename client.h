@@ -12,18 +12,17 @@ private:
     QTcpSocket* m_tcpSocket;
 
 public:
-    Client(QTcpSocket* tcpSocket, QObject *parent = 0);
+    Client(QTcpSocket *tcpSocket, QObject *parent = 0);
     ~Client();
     void write(const QByteArray& data);
 
 signals:
     void disconnected(Client*);
-    void forwardMessage(const QByteArray*);
+    void forwardMessage(const Client*, const QByteArray*);
 
 public slots:
     void socketDisconnected();
     void read();
-
 };
 
 #endif // CLIENT_H

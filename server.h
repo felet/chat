@@ -24,7 +24,7 @@ signals:
 public slots:
     void newConnection();
     void clientDisconnected(Client*);
-    void forwardMessage(const QByteArray*);
+    void forwardMessage(const Client *, const QByteArray*);
 };
 
 #endif // SERVER_H

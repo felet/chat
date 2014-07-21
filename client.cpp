@@ -1,6 +1,6 @@
 #include "client.h"
 
-Client::Client(QTcpSocket* tcpSocket, QObject *parent) :
+Client::Client(QTcpSocket *tcpSocket, QObject *parent) :
     QObject(parent),
     m_tcpSocket(tcpSocket)
 {
@@ -28,7 +28,7 @@ void Client::read()
 
     if (command_ptr->startsWith("MESSAGE "))
     {
-        emit forwardMessage(command_ptr);
+        emit forwardMessage(this, command_ptr);
     }
     else
     {

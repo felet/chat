@@ -36,8 +36,8 @@ void Server::newConnection()
     m_clients.push_back(client);
     QObject::connect(client, SIGNAL(disconnected(Client*)),
                      this, SLOT(clientDisconnected(Client*)));
-    QObject::connect(client, SIGNAL(forwardMessage(const QByteArray*)),
-                     this, SLOT(forwardMessage(const QByteArray*)));
+    QObject::connect(client, SIGNAL(forwardMessage(const Client*, const QByteArray*)),
+                     this, SLOT(forwardMessage(const Client*, const QByteArray*)));
 
     client->write("Welcome!\n");
 }
@@ -49,12 +49,15 @@ void Server::clientDisconnected(Client* client)
     qDebug() << "Client disconnected!";
 }
 
-void Server::forwardMessage(const QByteArray* command_ptr)
+void Server::forwardMessage(const Client *sender, const QByteArray *command_ptr)
 {
     for (QList<Client*>::iterator itr = m_clients.begin(); itr != m_clients.constEnd(); ++itr)
     {
         Client *client = *itr;
-        client->write(*command_ptr);
+        if (client != sender)
+        {
+            client->write(*command_ptr);
+        }
     }
     delete command_ptr;
 }
