@@ -8,7 +8,7 @@ QT       += core network
 
 QT       -= gui
 
-TARGET = chat
+TARGET = server
 CONFIG   += console
 CONFIG   -= app_bundle
 
