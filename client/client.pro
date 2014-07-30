@@ -16,11 +16,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     client.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    commandparser.cpp
 
 HEADERS += \
     client.h \
-    mainwindow.h
+    mainwindow.h \
+    commandparser.h \
+    clientdelegate.h
 
 FORMS += \
     mainwindow.ui
