@@ -10,7 +10,6 @@ Client::Client(MainWindow* window, QObject *parent) :
 {
     QObject::connect(&m_tcpSocket, SIGNAL(disconnected()),
                      this, SLOT(socketDisconnected()));
-
     QObject::connect(&m_tcpSocket, SIGNAL(readyRead()),
                      this, SLOT(read()));
 
@@ -21,6 +20,7 @@ Client::Client(MainWindow* window, QObject *parent) :
     m_conversation = window->centralWidget()->findChild<QTextEdit*>("textEdit_1");
     m_input = window->centralWidget()->findChild<QTextEdit*>("textEdit_2");
     m_send = window->centralWidget()->findChild<QPushButton*>("pushButton");
+
     if (!m_conversation || !m_input || !m_send) {
         throw new FailedToInitializeUI;
     }
@@ -41,9 +41,11 @@ void Client::socketDisconnected()
 
 void Client::read()
 {
-    const QByteArray *command_ptr = new QByteArray(m_tcpSocket.readLine(100));
-    qDebug() << "Read from Server: " << *command_ptr;
-    m_conversation->setText(*command_ptr);
+    const QByteArray command_ptr(m_tcpSocket.readLine(100));
+    qDebug() << "Read from Server: " << command_ptr;
+    QString str = "Server: ";
+    str += command_ptr;
+    m_conversation->setText(str);
 }
 
 void Client::inputTextChanged()
@@ -55,5 +57,7 @@ void Client::sendMessage()
 {
     QString message = m_input->toPlainText();
     m_input->clear();
-    // TODO: Send the message to the server. :-)
+    QString command("MESSAGE ");
+    command += message;
+    m_tcpSocket.write(command.toLocal8Bit());
 }
