@@ -29,7 +29,7 @@ Client::Client(MainWindow* window, QObject *parent) :
 
     m_tcpSocket.abort();
     m_tcpSocket.connectToHost("localhost", 55555);
-    m_tcpSocket.write("MESSAGE Hi!\n");
+    m_tcpSocket.write(createMessage("hi").toLocal8Bit());
 
     m_conversation = window->centralWidget()->findChild<QTextEdit*>("textEdit_1");
     m_input = window->centralWidget()->findChild<QTextEdit*>("textEdit_2");
