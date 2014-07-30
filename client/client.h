@@ -20,7 +20,6 @@ public:
 public slots:
     void socketDisconnected();
     void read();
-    void inputTextChanged();
     void sendMessage();
 
 private:

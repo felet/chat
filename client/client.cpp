@@ -25,7 +25,6 @@ Client::Client(MainWindow* window, QObject *parent) :
         throw new FailedToInitializeUI;
     }
 
-    QObject::connect(m_input, SIGNAL(textChanged()), this, SLOT(inputTextChanged()));
     QObject::connect(m_send, SIGNAL(clicked()), this, SLOT(sendMessage()));
 }
 
@@ -45,12 +44,9 @@ void Client::read()
     qDebug() << "Read from Server: " << command_ptr;
     QString str = "Server: ";
     str += command_ptr;
-    m_conversation->setText(str);
-}
 
-void Client::inputTextChanged()
-{
-    qDebug() << "inputTextChanged";
+    // TODO: Don't replace the entire conversation, append properly instead.
+    m_conversation->setText(str);
 }
 
 void Client::sendMessage()
