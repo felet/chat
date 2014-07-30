@@ -3,10 +3,18 @@
 
 #include "client.h"
 #include "mainwindow.h"
+#include "commandparser.h"
 
+namespace {
+
+bool isCommand(QString str) {
+    return str[0] == '/';
+}
+
+}
 
 Client::Client(MainWindow* window, QObject *parent) :
-    QObject(parent), m_window(window)
+    QObject(parent), m_window(window), m_parser(new CommandParser(this))
 {
     QObject::connect(&m_tcpSocket, SIGNAL(disconnected()),
                      this, SLOT(socketDisconnected()));
@@ -31,6 +39,13 @@ Client::Client(MainWindow* window, QObject *parent) :
 Client::~Client()
 {
     m_tcpSocket.abort();
+    delete m_parser;
+}
+
+void Client::setName(QString name)
+{
+    // TODO: Notify server of nick change.
+    qDebug() << "Set name: " << name;
 }
 
 void Client::socketDisconnected()
@@ -41,19 +56,19 @@ void Client::socketDisconnected()
 void Client::read()
 {
     const QByteArray command_ptr(m_tcpSocket.readLine(100));
-    qDebug() << "Read from Server: " << command_ptr;
-    QString str = "Server: ";
-    str += command_ptr;
-
-    // TODO: Don't replace the entire conversation, append properly instead.
-    m_conversation->setText(str);
+    m_conversation->append(command_ptr);
 }
 
 void Client::sendMessage()
 {
     QString message = m_input->toPlainText();
     m_input->clear();
-    QString command("MESSAGE ");
-    command += message;
-    m_tcpSocket.write(command.toLocal8Bit());
+
+    if (isCommand(message)) {
+        m_parser->parse(message);
+    } else {
+        QString command("MESSAGE ");
+        command += message;
+        m_tcpSocket.write(command.toLocal8Bit());
+    }
 }

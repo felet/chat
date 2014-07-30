@@ -6,16 +6,22 @@
 #include <QPushButton>
 #include <QtNetwork>
 
+#include "clientdelegate.h"
+
+class CommandParser;
 class MainWindow;
 class FailedToInitializeUI {};
 
-class Client : public QObject
+class Client : public QObject, public ClientDelegate
 {
     Q_OBJECT
 
 public:
     Client(MainWindow* window, QObject *parent = 0);
     ~Client();
+
+    // ClientDelegate
+    virtual void setName(QString name);
 
 public slots:
     void socketDisconnected();
@@ -28,6 +34,7 @@ private:
     QTextEdit* m_conversation;
     QTextEdit* m_input;
     QPushButton* m_send;
+    CommandParser* m_parser;
 };
 
 #endif // CLIENT_H
