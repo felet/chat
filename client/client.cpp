@@ -7,8 +7,14 @@
 
 namespace {
 
-bool isCommand(QString str) {
+bool isCommand(QString str)
+{
     return str[0] == '/';
+}
+
+QString createMessage(QString message)
+{
+    return "MESSAGE " + message;
 }
 
 }
@@ -67,8 +73,6 @@ void Client::sendMessage()
     if (isCommand(message)) {
         m_parser->parse(message);
     } else {
-        QString command("MESSAGE ");
-        command += message;
-        m_tcpSocket.write(command.toLocal8Bit());
+        m_tcpSocket.write(createMessage(message).toLocal8Bit());
     }
 }
