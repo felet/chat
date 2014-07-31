@@ -50,8 +50,9 @@ Client::~Client()
 
 void Client::setName(QString name)
 {
-    // TODO: Notify server of nick change.
-    qDebug() << "Set name: " << name;
+    QString command = "SET_NAME ";
+    command += name;
+    m_tcpSocket.write(command.toLocal8Bit());
 }
 
 void Client::socketDisconnected()

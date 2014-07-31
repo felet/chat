@@ -8,9 +8,6 @@ class Client : public QObject
 {
     Q_OBJECT
 
-private:
-    QTcpSocket* m_tcpSocket;
-
 public:
     Client(QTcpSocket *tcpSocket, QObject *parent = 0);
     ~Client();
@@ -23,6 +20,10 @@ signals:
 public slots:
     void socketDisconnected();
     void read();
+
+private:
+    QTcpSocket* m_tcpSocket;
+    QString m_name;
 };
 
 #endif // CLIENT_H

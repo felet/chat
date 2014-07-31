@@ -30,6 +30,11 @@ void Client::read()
     {
         emit forwardMessage(this, command_ptr);
     }
+    else if (command_ptr->startsWith("SET_NAME "))
+    {
+        qDebug() << "Setting name for client";
+        m_name = command_ptr->right(command_ptr->length() - strlen("SET_NAME "));
+    }
     else
     {
         delete command_ptr;
