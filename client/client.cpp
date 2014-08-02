@@ -71,14 +71,15 @@ void Client::sendMessage()
 {
     QString message = m_input->toPlainText();
     m_input->clear();
-    QString local;
-    local.append(m_name);
-    local.append(": ");
-    local.append(message);
-    m_conversation->append(local);
+
     if (isCommand(message)) {
         m_parser->parse(message);
     } else {
+        QString local;
+        local.append(m_name);
+        local.append(": ");
+        local.append(message);
+        m_conversation->append(local);
         m_tcpSocket.write(createMessage(message).toLocal8Bit());
     }
 }
