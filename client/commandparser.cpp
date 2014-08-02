@@ -8,5 +8,6 @@ CommandParser::CommandParser(ClientDelegate* delegate)
 
 void CommandParser::parse(QString command)
 {
+    // TODO: Retrieve the name after the space
     m_delegate->setName(command.right(command.length()-1));
 }

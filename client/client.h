@@ -35,6 +35,7 @@ private:
     QTextEdit* m_input;
     QPushButton* m_send;
     CommandParser* m_parser;
+    QString m_name;
 };
 
 #endif // CLIENT_H

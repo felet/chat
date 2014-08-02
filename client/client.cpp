@@ -20,7 +20,7 @@ QString createMessage(QString message)
 }
 
 Client::Client(MainWindow* window, QObject *parent) :
-    QObject(parent), m_window(window), m_parser(new CommandParser(this))
+    QObject(parent), m_window(window), m_parser(new CommandParser(this)), m_name("default")
 {
     QObject::connect(&m_tcpSocket, SIGNAL(disconnected()),
                      this, SLOT(socketDisconnected()));
@@ -53,6 +53,7 @@ void Client::setName(QString name)
     QString command = "SET_NAME ";
     command += name;
     m_tcpSocket.write(command.toLocal8Bit());
+    m_name = name;
 }
 
 void Client::socketDisconnected()
@@ -70,7 +71,11 @@ void Client::sendMessage()
 {
     QString message = m_input->toPlainText();
     m_input->clear();
-
+    QString local;
+    local.append(m_name);
+    local.append(": ");
+    local.append(message);
+    m_conversation->append(local);
     if (isCommand(message)) {
         m_parser->parse(message);
     } else {
