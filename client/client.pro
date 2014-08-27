@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core network widgets
+QT       += core network widgets testlib
 
 
 TARGET = client
