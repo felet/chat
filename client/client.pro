@@ -17,15 +17,13 @@ TEMPLATE = app
 SOURCES += main.cpp \
     client.cpp \
     mainwindow.cpp \
-    commandparser.cpp \
-    tests/commandparsertest.cpp
+    commandparser.cpp
 
 HEADERS += \
     client.h \
     mainwindow.h \
     commandparser.h \
-    clientdelegate.h \
-    tests/commandparsertest.h
+    clientdelegate.h
 
 FORMS += \
     mainwindow.ui
@@ -35,4 +33,10 @@ build_tests {
   TARGET = test
   DEFINES += TEST
   QT += testlib
+
+  SOURCES += \
+      tests/commandparsertest.cpp
+
+  HEADERS += \
+      tests/commandparsertest.h
 }
