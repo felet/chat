@@ -7,6 +7,22 @@ CommandParserTest::CommandParserTest(QObject *parent) :
 {
 }
 
+void CommandParserTest::initTestCase()
+{
+}
+
+void CommandParserTest::cleanupTestCase()
+{
+}
+
+void CommandParserTest::init()
+{
+}
+
+void CommandParserTest::cleanup()
+{
+}
+
 void CommandParserTest::testEmptyName()
 {
     FakeClientDelegate delegate;

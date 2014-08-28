@@ -18,6 +18,12 @@ public:
     explicit CommandParserTest(QObject *parent = 0);
 
 private slots:
+    void initTestCase();
+    void cleanupTestCase();
+
+    void init();
+    void cleanup();
+
     void testEmptyName();
     void testRegularName();
 };
