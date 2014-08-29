@@ -27,3 +27,16 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui
+
+
+build_tests {
+  TARGET = test
+  DEFINES += TEST
+  QT += testlib
+
+  SOURCES += \
+      tests/commandparsertest.cpp
+
+  HEADERS += \
+      tests/commandparsertest.h
+}

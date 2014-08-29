@@ -1,7 +1,15 @@
-#include <QApplication>
-#include <mainwindow.h>
+#ifdef TEST
 
+#include <QtTest>
+#include "tests/commandparsertest.h"
+
+QTEST_MAIN(CommandParserTest);
+
+#else
+
+#include <QApplication>
 #include "client.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,3 +19,5 @@ int main(int argc, char *argv[])
     Client client(&w);
     return a.exec();
 }
+
+#endif
